@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPRequestOperation.h"
+#import "AFJSONRequestOperation.h"
 
 #import "NSMutableURLRequest+AFNetworking.h"
 #import "NSString+AFNetworking.h"
@@ -47,8 +47,8 @@
 - (void)enqueueHTTPOperation:(AFHTTPRequestOperation *)operation;
 
 - (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request 
-                                success:(void (^)(id response))success 
-                                failure:(void (^)(NSError *error))failure;
+                                success:(AFJSONRequestSuccessHandler)success 
+                                failure:(AFJSONRequestFailureHandler)failure;
 
 - (void)cancelHTTPOperationsWithRequest:(NSURLRequest *)request;
 
@@ -56,37 +56,37 @@
 
 - (void)getPath:(NSString *)path 
      parameters:(NSDictionary *)parameters 
-        success:(void (^)(id response))success;
+        success:(AFJSONRequestSuccessHandler)success;
 
 - (void)getPath:(NSString *)path 
      parameters:(NSDictionary *)parameters 
-        success:(void (^)(id response))success 
-        failure:(void (^)(NSError *error))failure;
+        success:(AFJSONRequestSuccessHandler)success 
+        failure:(AFJSONRequestFailureHandler)failure;
 
 - (void)postPath:(NSString *)path 
       parameters:(NSDictionary *)parameters 
-         success:(void (^)(id response))success;
+         success:(AFJSONRequestSuccessHandler)success;
 
 - (void)postPath:(NSString *)path 
       parameters:(NSDictionary *)parameters 
-         success:(void (^)(id response))success 
-         failure:(void (^)(NSError *error))failure;
+         success:(AFJSONRequestSuccessHandler)success 
+         failure:(AFJSONRequestFailureHandler)failure;
 
 - (void)putPath:(NSString *)path 
      parameters:(NSDictionary *)parameters 
-        success:(void (^)(id response))success;
+        success:(AFJSONRequestSuccessHandler)success;
 
 - (void)putPath:(NSString *)path 
      parameters:(NSDictionary *)parameters 
-        success:(void (^)(id response))success 
-        failure:(void (^)(NSError *error))failure;
+        success:(AFJSONRequestSuccessHandler)success 
+        failure:(AFJSONRequestFailureHandler)failure;
 
 - (void)deletePath:(NSString *)path 
         parameters:(NSDictionary *)parameters 
-           success:(void (^)(id response))success;
+           success:(AFJSONRequestSuccessHandler)success;
 
 - (void)deletePath:(NSString *)path 
         parameters:(NSDictionary *)parameters 
-           success:(void (^)(id response))success 
-           failure:(void (^)(NSError *error))failure;
+           success:(AFJSONRequestSuccessHandler)success 
+           failure:(AFJSONRequestFailureHandler)failure;
 @end

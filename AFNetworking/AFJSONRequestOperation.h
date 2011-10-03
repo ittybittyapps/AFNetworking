@@ -22,20 +22,23 @@
 
 #import "AFHTTPRequestOperation.h"
 
+typedef void (^AFJSONRequestSuccessHandler)(NSURLRequest *request, NSHTTPURLResponse *response, id JSON);
+typedef void (^AFJSONRequestFailureHandler)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error);
+
 @interface AFJSONRequestOperation : AFHTTPRequestOperation
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest                
-                   success:(void (^)(id JSON))success;
+                   success:(AFJSONRequestSuccessHandler)success;
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest 
-                   success:(void (^)(id JSON))success
-                   failure:(void (^)(NSError *error))failure;
+                   success:(AFJSONRequestSuccessHandler)success
+                   failure:(AFJSONRequestFailureHandler)failure;
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest
      acceptableStatusCodes:(NSIndexSet *)acceptableStatusCodes
     acceptableContentTypes:(NSSet *)acceptableContentTypes
-                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, id JSON))success
-                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure;
+                   success:(AFJSONRequestSuccessHandler)success
+                   failure:(AFJSONRequestFailureHandler)failure;
 
 + (NSIndexSet *)defaultAcceptableStatusCodes;
 + (NSSet *)defaultAcceptableContentTypes;

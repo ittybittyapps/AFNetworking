@@ -143,7 +143,7 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
     [self.operationQueue addOperation:operation];
 }
 
-- (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request success:(void (^)(id response))success failure:(void (^)(NSError *error))failure {
+- (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	if ([request URL] == nil || [[request URL] isEqual:[NSNull null]]) {
 		return;
 	}
@@ -166,38 +166,38 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
 
 #pragma mark -
 
-- (void)getPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success {
+- (void)getPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
     [self getPath:path parameters:parameters success:success failure:nil];
 }
 
-- (void)getPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success failure:(void (^)(NSError *error))failure {
+- (void)getPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
 	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
 }
 
-- (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success {
+- (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
     [self postPath:path parameters:parameters success:success failure:nil];
 }
 
-- (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success failure:(void (^)(NSError *error))failure {
+- (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
 	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
 }
 
-- (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success {
+- (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
     [self putPath:path parameters:parameters success:success failure:nil];
 }
 
-- (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success failure:(void (^)(NSError *error))failure {
+- (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
 	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
 }
 
-- (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success {
+- (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
     [self deletePath:path parameters:parameters success:success failure:nil];
 }
 
-- (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(void (^)(id response))success failure:(void (^)(NSError *error))failure {
+- (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
 	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
 }

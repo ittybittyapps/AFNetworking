@@ -37,31 +37,23 @@ static dispatch_queue_t json_request_operation_processing_queue() {
 @implementation AFJSONRequestOperation
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest                
-                   success:(void (^)(id JSON))success
+                   success:(AFJSONRequestSuccessHandler)success
 {
     return [self operationWithRequest:urlRequest success:success failure:nil];
 }
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest 
-                   success:(void (^)(id JSON))success
-                   failure:(void (^)(NSError *error))failure
+                   success:(AFJSONRequestSuccessHandler)success
+                   failure:(AFJSONRequestFailureHandler)failure
 {    
-    return [self operationWithRequest:urlRequest acceptableStatusCodes:[self defaultAcceptableStatusCodes] acceptableContentTypes:[self defaultAcceptableContentTypes] success:^(NSURLRequest __unused *request, NSHTTPURLResponse __unused *response, id JSON) {
-        if (success) {
-            success(JSON);
-        }
-    } failure:^(NSURLRequest __unused *request, NSHTTPURLResponse __unused *response, NSError *error) {
-        if (failure) {
-            failure(error);
-        }
-    }];
+    return [self operationWithRequest:urlRequest acceptableStatusCodes:[self defaultAcceptableStatusCodes] acceptableContentTypes:[self defaultAcceptableContentTypes] success:success failure:failure];
 }
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest
      acceptableStatusCodes:(NSIndexSet *)acceptableStatusCodes
     acceptableContentTypes:(NSSet *)acceptableContentTypes
-                   success:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, id JSON))success
-                   failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error))failure
+                   success:(AFJSONRequestSuccessHandler)success
+                   failure:(AFJSONRequestFailureHandler)failure
 {
     return [self operationWithRequest:urlRequest completion:^(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data, NSError *error) {        
         if (!error) {
