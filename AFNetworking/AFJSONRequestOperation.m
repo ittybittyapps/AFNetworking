@@ -21,9 +21,7 @@
 // THE SOFTWARE.
 
 #import "AFJSONRequestOperation.h"
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
 #import "JSONKit.h"
-#endif
 
 #include <Availability.h>
 
