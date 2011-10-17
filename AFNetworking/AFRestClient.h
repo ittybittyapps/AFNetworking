@@ -48,7 +48,8 @@
 
 - (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request 
                                 success:(AFJSONRequestSuccessHandler)success 
-                                failure:(AFJSONRequestFailureHandler)failure;
+                                failure:(AFJSONRequestFailureHandler)failure
+                                onQueue:(dispatch_queue_t)queue;
 
 - (void)cancelHTTPOperationsWithRequest:(NSURLRequest *)request;
 

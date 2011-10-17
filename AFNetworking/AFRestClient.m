@@ -143,12 +143,16 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
     [self.operationQueue addOperation:operation];
 }
 
-- (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
+- (void)enqueueHTTPOperationWithRequest:(NSURLRequest *)request
+                                success:(AFJSONRequestSuccessHandler)success 
+                                failure:(AFJSONRequestFailureHandler)failure
+                                onQueue:(dispatch_queue_t)queue
+{
 	if ([request URL] == nil || [[request URL] isEqual:[NSNull null]]) {
 		return;
 	}
     
-    AFHTTPRequestOperation *operation = [AFJSONRequestOperation operationWithRequest:request success:success failure:failure];
+    AFHTTPRequestOperation *operation = [AFJSONRequestOperation operationWithRequest:request success:success failure:failure onQueue:queue];
     [self enqueueHTTPOperation:operation];
 }
 
@@ -172,7 +176,7 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
 
 - (void)getPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"GET" path:path parameters:parameters];
-	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
+	[self enqueueHTTPOperationWithRequest:request success:success failure:failure onQueue:dispatch_get_main_queue()];
 }
 
 - (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
@@ -181,7 +185,7 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
 
 - (void)postPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
-	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
+	[self enqueueHTTPOperationWithRequest:request success:success failure:failure onQueue:dispatch_get_main_queue()];
 }
 
 - (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
@@ -190,7 +194,7 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
 
 - (void)putPath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
-	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
+	[self enqueueHTTPOperationWithRequest:request success:success failure:failure onQueue:dispatch_get_main_queue()];
 }
 
 - (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success {
@@ -199,7 +203,7 @@ static NSStringEncoding const kAFRestClientStringEncoding = NSUTF8StringEncoding
 
 - (void)deletePath:(NSString *)path parameters:(NSDictionary *)parameters success:(AFJSONRequestSuccessHandler)success failure:(AFJSONRequestFailureHandler)failure {
 	NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
-	[self enqueueHTTPOperationWithRequest:request success:success failure:failure];
+	[self enqueueHTTPOperationWithRequest:request success:success failure:failure onQueue:dispatch_get_main_queue()];
 }
 
 @end

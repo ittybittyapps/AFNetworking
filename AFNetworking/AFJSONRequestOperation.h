@@ -28,17 +28,20 @@ typedef void (^AFJSONRequestFailureHandler)(NSURLRequest *request, NSHTTPURLResp
 @interface AFJSONRequestOperation : AFHTTPRequestOperation
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest                
-                   success:(AFJSONRequestSuccessHandler)success;
+                   success:(AFJSONRequestSuccessHandler)success
+                   onQueue:(dispatch_queue_t)queue;
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest 
                    success:(AFJSONRequestSuccessHandler)success
-                   failure:(AFJSONRequestFailureHandler)failure;
+                   failure:(AFJSONRequestFailureHandler)failure
+                   onQueue:(dispatch_queue_t)queue;
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest
      acceptableStatusCodes:(NSIndexSet *)acceptableStatusCodes
     acceptableContentTypes:(NSSet *)acceptableContentTypes
                    success:(AFJSONRequestSuccessHandler)success
-                   failure:(AFJSONRequestFailureHandler)failure;
+                   failure:(AFJSONRequestFailureHandler)failure
+                   onQueue:(dispatch_queue_t)queue;
 
 + (NSIndexSet *)defaultAcceptableStatusCodes;
 + (NSSet *)defaultAcceptableContentTypes;

@@ -21,7 +21,9 @@
 // THE SOFTWARE.
 
 #import "AFJSONRequestOperation.h"
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_5_0
 #import "JSONKit.h"
+#endif
 
 #include <Availability.h>
 
@@ -38,15 +40,24 @@ static dispatch_queue_t json_request_operation_processing_queue() {
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest                
                    success:(AFJSONRequestSuccessHandler)success
+                   onQueue:(dispatch_queue_t)queue
 {
-    return [self operationWithRequest:urlRequest success:success failure:nil];
+    return [self operationWithRequest:urlRequest 
+                              success:success 
+                              failure:nil
+                              onQueue:queue];
 }
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest 
                    success:(AFJSONRequestSuccessHandler)success
                    failure:(AFJSONRequestFailureHandler)failure
+                   onQueue:(dispatch_queue_t)queue
 {    
-    return [self operationWithRequest:urlRequest acceptableStatusCodes:[self defaultAcceptableStatusCodes] acceptableContentTypes:[self defaultAcceptableContentTypes] success:success failure:failure];
+    return [self operationWithRequest:urlRequest acceptableStatusCodes:[self defaultAcceptableStatusCodes] 
+               acceptableContentTypes:[self defaultAcceptableContentTypes] 
+                              success:success
+                              failure:failure
+                              onQueue:queue];
 }
 
 + (id)operationWithRequest:(NSURLRequest *)urlRequest
@@ -54,6 +65,7 @@ static dispatch_queue_t json_request_operation_processing_queue() {
     acceptableContentTypes:(NSSet *)acceptableContentTypes
                    success:(AFJSONRequestSuccessHandler)success
                    failure:(AFJSONRequestFailureHandler)failure
+                   onQueue:(dispatch_queue_t)queue
 {
     return [self operationWithRequest:urlRequest completion:^(NSURLRequest *request, NSHTTPURLResponse *response, NSData *data, NSError *error) {        
         if (!error) {
@@ -96,7 +108,7 @@ static dispatch_queue_t json_request_operation_processing_queue() {
                 JSON = [[JSONDecoder decoder] objectWithData:data error:&JSONError];
 #endif
                 
-                dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                dispatch_sync(queue, ^(void) {
                     if (JSONError) {
                         if (failure) {
                             failure(request, response, JSONError);
